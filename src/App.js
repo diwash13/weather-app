@@ -1,7 +1,7 @@
 import React, { Component } from "react";
-import Title from "./Components/Title";
-import Form from "./Components/Form";
-import Weather from "./Components/Weather";
+import Title from "./Components/Title/Title";
+import Form from "./Components/Form/Form";
+import Weather from "./Components/Weather/Weather";
 
 const API_KEY = "0298ad3bdf17577eef5bc1160cd31e87";
 
@@ -15,7 +15,7 @@ class App extends Component {
     humidity: undefined,
     description: undefined,
     error: undefined
-  }
+  };
   getWeather = async e => {
     e.preventDefault();
     const city = e.target.elements.city.value;
@@ -25,7 +25,7 @@ class App extends Component {
     );
     const data = await api_call.json();
     console.log(data);
-    if( city && country) {
+    if (city && country) {
       this.setState({
         temperature: data.main.temp,
         maxTemp: data.main.temp_max,
@@ -34,34 +34,46 @@ class App extends Component {
         country: data.sys.country,
         humidity: data.main.humidity,
         description: data.weather[0].description,
-        error: ''
-      })
+        error: ""
+      });
     } else {
-        this.setState({
-          temperature: undefined,
-          city: undefined,
-          country: undefined,
-          humidity: undefined,
-          description: undefined,
-          error: 'Please enter desired City and Country to get the weather'
-        })
+      this.setState({
+        temperature: undefined,
+        city: undefined,
+        country: undefined,
+        humidity: undefined,
+        description: undefined,
+        error: "Please enter desired City and Country to get the weather"
+      });
     }
   };
   render() {
     return (
       <div>
-        <Title />
-        <Form getWeather={this.getWeather} />
-        <Weather 
-          temperature={this.state.temperature}
-          maxTemp={this.state.maxTemp}
-          minTemp={this.state.minTemp}
-          city={this.state.city}
-          country={this.state.country}
-          humidity={this.state.humidity}
-          description={this.state.description}
-          error={this.state.error}
-        />
+        <div className="wrapper">
+          <div className="main">
+            <div className="container">
+              <div className="row">
+                <div className="col-xs-5 title-container">
+                  <Title />
+                </div>
+                <div className="col-xs-7 form-container">
+                  <Form getWeather={this.getWeather} />
+                  <Weather
+                    temperature={this.state.temperature}
+                    maxTemp={this.state.maxTemp}
+                    minTemp={this.state.minTemp}
+                    city={this.state.city}
+                    country={this.state.country}
+                    humidity={this.state.humidity}
+                    description={this.state.description}
+                    error={this.state.error}
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     );
   }
